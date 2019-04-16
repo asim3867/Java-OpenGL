@@ -1,0 +1,39 @@
+import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL30;
+
+public class ModelData extends RawModel
+{
+	private int VAOID;
+	private int positionVBOID, indexVBOID;
+	private int vertexCount;
+	
+	public ModelData(float[] vertice, int[] index)
+	{
+		VAOID = createVAO();
+		
+		positionVBOID = createFloatVBO(0, 3, vertice);
+		indexVBOID = createIntVBO(index);
+		
+		vertexCount = index.length;
+		
+		GL20.glDisableVertexAttribArray(0);
+		GL30.glBindVertexArray(0);
+	}
+	
+	public void CleanMemory()
+	{
+		GL30.glDeleteVertexArrays(VAOID);
+		GL30.glDeleteBuffers(indexVBOID);
+		GL30.glDeleteBuffers(positionVBOID);
+	}
+	
+	public int getVAOID() 
+	{
+		return VAOID;
+	}
+
+	public int getVertexCount() 
+	{
+		return vertexCount;
+	}
+}
