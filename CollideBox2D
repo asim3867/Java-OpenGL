@@ -1,0 +1,63 @@
+import org.joml.Vector2f;
+
+public class CollideBox2D 
+{
+	public enum type
+	{
+		normal, circle, square
+	}
+	
+	private type collType;
+	
+	private float[] args;
+	/*
+	 * if type = circle
+	 * * * [0], [1], [2] = pos.x, pos.y, radius
+	 * if type = square
+	 * * * [0], [1], [2], [3] = pos0.x, pos0.y, pos1.x, pos1.y
+	 */
+	
+	public CollideBox2D(type t, float[] args)
+	{
+		if(t == type.circle)
+		{
+			if(args.length == 3)
+			{
+				collType = t;
+				this.args = args;
+			}
+		}
+		else if(t == type.square)
+		{
+			if(args.length == 4)
+			{
+				collType = t;
+				this.args = args;
+			}
+		}
+	}
+	
+	public boolean isCollide(Vector2f tg)
+	{
+		if(collType == type.circle)
+		{
+			if(tg.distance(args[0], args[1]) < args[2])
+				return true;
+			else
+				return false;
+		}
+		else if(collType == type.square)
+		{
+			if(tg.distance(tg.x, tg.y) < args[0])
+				return true;
+			else
+				return false;
+		}
+		else if(collType == type.normal)
+		{
+			return false;
+		}
+		else
+			return false;
+	}
+}
